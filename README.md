@@ -1,11 +1,14 @@
+
 # Setup
+### Create Environment
 
-
-Create env:
-
-conda create --name AR0 --file requirements.txt
+``
+conda create --name AR0 --file requirements.txt &&
 conda activate AR0
+``
 
-Create data:
-svg folder must be given,
-than run the create_data.ipynb notebook
+### Create Data:
+The **svg** folder must be given. Run the create_data.ipynb notebook
+
+### Train:
+see Train.ipynb
