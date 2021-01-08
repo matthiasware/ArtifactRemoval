@@ -12,3 +12,8 @@ The **svg** folder must be given. Run the create_data.ipynb notebook
 
 ### Train:
 see Train.ipynb
+
+
+### Results:
+
+https://github.com/matthiasware/ArtifactRemoval/blob/main/data/result.png
