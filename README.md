@@ -16,4 +16,4 @@ see Train.ipynb
 
 ### Results:
 
-https://github.com/matthiasware/ArtifactRemoval/blob/main/data/result.png
+![Result](https://github.com/matthiasware/ArtifactRemoval/blob/main/data/result.png)
