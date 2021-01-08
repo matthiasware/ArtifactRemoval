@@ -89,8 +89,8 @@ def double_conv(in_channels, out_channels):
     return nn.Sequential(
         nn.Conv2d(in_channels, out_channels, 3, padding=1),
         nn.ReLU(inplace=True),
-        nn.Conv2d(out_channels, out_channels, 3, padding=1),
-        nn.ReLU(inplace=True)
+        #nn.Conv2d(out_channels, out_channels, 3, padding=1),
+        # nn.ReLU(inplace=True)
     )
 
 
@@ -99,20 +99,20 @@ class UNet(nn.Module):
     def __init__(self, n_class):
         super().__init__()
 
-        self.dconv_down1 = double_conv(1, 64)
-        self.dconv_down2 = double_conv(64, 128)
-        self.dconv_down3 = double_conv(128, 256)
-        self.dconv_down4 = double_conv(256, 512)
+        self.dconv_down1 = double_conv(1, 8)
+        self.dconv_down2 = double_conv(8, 16)
+        self.dconv_down3 = double_conv(16, 32)
+        self.dconv_down4 = double_conv(32, 64)
 
         self.maxpool = nn.MaxPool2d(2)
         self.upsample = nn.Upsample(
             scale_factor=2, mode='bilinear', align_corners=True)
 
-        self.dconv_up3 = double_conv(256 + 512, 256)
-        self.dconv_up2 = double_conv(128 + 256, 128)
-        self.dconv_up1 = double_conv(128 + 64, 64)
+        self.dconv_up3 = double_conv(32 + 64, 32)
+        self.dconv_up2 = double_conv(16 + 32, 16)
+        self.dconv_up1 = double_conv(16 + 8, 8)
 
-        self.conv_last = nn.Conv2d(64, n_class, 1)
+        self.conv_last = nn.Conv2d(8, n_class, 1)
 
     def forward(self, x):
         conv1 = self.dconv_down1(x)
@@ -140,5 +140,25 @@ class UNet(nn.Module):
         x = self.dconv_up1(x)
 
         out = self.conv_last(x)
-
+        out = torch.sigmoid(out)
         return out
+
+
+class LinearBase(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super(LinearBase, self).__init__()
+        self.linear1 = nn.Linear(input_size, hidden_size)
+        self.linear2 = nn.Linear(hidden_size, hidden_size)
+        self.linear3 = nn.Linear(hidden_size, output_size)
+        print("Initialized LinearBase model with {} parameters".format(
+            self.count_params()))
+
+    def count_params(self):
+        return sum([p.view(-1).shape[0] for p in self.parameters()])
+
+    def forward(self, x):
+        x = self.linear1(x).relu()
+        x = self.linear2(x).relu()
+        x = self.linear3(x)
+        x = torch.sigmoid(x)
+        return x
