@@ -1,6 +1,11 @@
 *
+!**/*
 !*.py
 !*.md
 !*.txt
 !*.ipynb
 !.gitignore
+!*.c
+!*.cpp
+!*.pyx
+!*.h
