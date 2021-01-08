@@ -1,0 +1,6 @@
+*
+!*.py
+!*.md
+!*.txt
+!*.ipynb
+!.gitignore
