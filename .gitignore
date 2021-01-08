@@ -9,3 +9,5 @@
 !*.cpp
 !*.pyx
 !*.h
+
+.ipynb_checkpoints
